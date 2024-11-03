@@ -1,4 +1,5 @@
 import numpy as np
+from itertools import combinations
 
 def init_cube(n: int) -> np.ndarray:
     numbers = np.arange(1, n**3 + 1)
@@ -88,6 +89,21 @@ def random_swap(cube: np.ndarray) -> np.ndarray:
     while np.array_equal(a, b):
         b = np.random.randint(0, n, 3)
     return swap(cube, tuple(a), tuple(b))
+
+def best_neighbor(cube: np.ndarray) -> np.ndarray:
+    n = cube.shape[0]
+    best_neighbor = cube.copy()
+    best_value = evaluate_cube(swap(cube, (0, 0, 0), (0, 0, 1)))
+
+    indices = [(i, j, k) for i in range(n) for j in range(n) for k in range(n)]
+    for (i, j, k), (x, y, z) in combinations(indices, 2):
+        neighbor = swap(cube, (i, j, k), (x, y, z))
+        neighbor_value = evaluate_cube(neighbor)
+        if neighbor_value > best_value:
+            best_neighbor = neighbor
+            best_value = neighbor_value
+
+    return best_neighbor
 
 def is_goal(cube: np.ndarray) -> bool:
     return evaluate_cube(cube) == 0
