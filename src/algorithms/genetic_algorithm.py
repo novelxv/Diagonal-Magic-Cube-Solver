@@ -2,6 +2,7 @@ import numpy as np
 from src.algorithms.base_algorithm import BaseAlgorithm
 from src.utils.data_processing import init_cube, evaluate_cube, random_swap, get_rows, get_cols, get_pillars, get_side_diagonals, get_space_diagonals
 import random
+import time
 
 class GeneticAlgorithm(BaseAlgorithm):
     def __init___(self, cube: np.ndarray, max_iter: int, population_size: int, mutation_rate: float):
@@ -66,6 +67,7 @@ class GeneticAlgorithm(BaseAlgorithm):
     
     def run(self):
         """ Run genetic algorithm """
+        self.start_time  = time.time()
         self.iter = 0
         best_individual = None
         best_fitness = 0
@@ -83,7 +85,7 @@ class GeneticAlgorithm(BaseAlgorithm):
                 found_sol = True
                 break
 
-            self.tracker.append(best_fitness)
+            self.track_value()
             # Generate new population
             for _ in range(self.population_size // 2):
                 parent1, parent2 = self.select_parents()
@@ -96,3 +98,11 @@ class GeneticAlgorithm(BaseAlgorithm):
             self.iter += 1
 
         self.cube = best_individual
+        self.end_time = time.time()
+
+    def get_results(self):
+        results = super().get_results()
+        results.update({
+            "population": self.population,
+        })
+        return results

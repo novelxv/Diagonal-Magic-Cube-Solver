@@ -1,5 +1,6 @@
 from src.algorithms.base_algorithm import BaseAlgorithm
 from src.utils.data_processing import best_neighbor, evaluate_cube
+import time
 
 class SidewaysMove(BaseAlgorithm):
     def __init__(self, cube, max_iter, max_sideways_moves):
@@ -7,6 +8,7 @@ class SidewaysMove(BaseAlgorithm):
         self.max_sideways_moves = max_sideways_moves
 
     def run(self):
+        self.start_time = time.time()
         self.iter = 0
         sideways_count = 0
 
@@ -27,3 +29,4 @@ class SidewaysMove(BaseAlgorithm):
 
             self.iter += 1
             
+        self.end_time = time.time()

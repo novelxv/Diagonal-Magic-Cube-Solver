@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import numpy as np
 from src.utils.data_processing import evaluate_cube
+import time
 
 class BaseAlgorithm(ABC):
     def __init__(self, cube: np.ndarray, max_iter: int):
@@ -9,6 +10,8 @@ class BaseAlgorithm(ABC):
         self.max_iter = max_iter
         self.iter = 0
         self.tracker = []
+        self.start_time = None
+        self.end_time = None
 
     @abstractmethod
     def run(self):
@@ -23,13 +26,15 @@ class BaseAlgorithm(ABC):
         self.tracker.append(value)
 
     def get_results(self):
+        duration = self.end_time - self.start_time
         results = {
             "initial_state": self.init_cube,
             "final_state" : self.cube,
             "initial_value": evaluate_cube(self.init_cube),
             "final_value": self.evaluate(),
             "iterations": self.iter,
-            "tracker": self.tracker
+            "tracker": self.tracker,
+            "duration": duration
         }
         return results
     
@@ -37,4 +42,6 @@ class BaseAlgorithm(ABC):
         self.cube = self.init_cube.copy()
         self.iter = 0
         self.tracker = []
+        self.start_time = None
+        self.end_time = None
         
