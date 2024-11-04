@@ -1,12 +1,13 @@
 from utils.cube_visualizer import visualize_experiment
 from utils.data_processing import init_cube
-from utils.file_manager import save_experiment_results
+from utils.file_manager import save_experiment_results, load_experiment_results
 from algorithms.hill_climbing.random_restart import RandomRestart
 from algorithms.hill_climbing.sideways_move import SidewaysMove
 from algorithms.hill_climbing.steepest_ascent import SteepestAscent
 from algorithms.hill_climbing.stochastic import Stochastic
 from algorithms.genetic_algorithm import GeneticAlgorithm
 from algorithms.simulated_annealing import SimulatedAnnealing
+import numpy as np
 
 def run_experiment(algorithm_class, cube, **kwargs):
     algo = algorithm_class(cube=cube, **kwargs)
@@ -19,8 +20,8 @@ def run_all():
     cube = init_cube(5)
     n_experiments = 3
     max_iter = 25
-
     max_iters = [15, 25, 50]
+
     # steepest ascent
     for i in range(n_experiments):
         result = run_experiment(SteepestAscent, cube=cube, max_iter=max_iters[i])
@@ -34,9 +35,10 @@ def run_all():
         save_experiment_results(result, f'sideways_{i+1}.json')
 
     # random restart
+    max_restart = [2, 3, 5]
     for i in range(n_experiments):
         result = run_experiment(RandomRestart, cube=cube, max_iter=max_iter,
-                                max_restart=5)
+                                max_restart=max_restart[i])
         save_experiment_results(result, f'restart_{i+1}.json')
 
     max_iters = [1000, 2000, 5000]
@@ -55,13 +57,14 @@ def run_all():
         save_experiment_results(result, f'sa_{i+1}.json')
     
     # genetic algorithm
-    population_size = [50, 100, 200]
+    population_size = [50, 80, 150]
+    max_iters = [15, 25, 50]
 
     for i in range(n_experiments):
         for j in range(n_experiments):
             result = run_experiment(GeneticAlgorithm, cube=cube, max_iter=max_iters[i],
                                     population_size=population_size[1], mutation_rate=0.05)
-            save_experiment_results(result, f'ga_pop_size_control_{i+1}{j+1}.json')
+            save_experiment_results(result, f'ga_population_control_{i+1}{j+1}.json')
     
     for i in range(n_experiments):
         for j in range(n_experiments):
