@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 import numpy as np
-from src.utils.data_processing import evaluate_cube
+from utils.data_processing import evaluate_cube
 import time
 
 class BaseAlgorithm(ABC):

@@ -1,5 +1,5 @@
-from src.algorithms.base_algorithm import BaseAlgorithm
-from src.utils.data_processing import best_neighbor, evaluate_cube
+from algorithms.base_algorithm import BaseAlgorithm
+from utils.data_processing import best_neighbor, evaluate_cube
 import time
 
 class SteepestAscent(BaseAlgorithm):

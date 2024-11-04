@@ -1,6 +1,6 @@
 import numpy as np
-from src.algorithms.base_algorithm import BaseAlgorithm
-from src.utils.data_processing import init_cube, evaluate_cube, random_swap, get_rows, get_cols, get_pillars, get_side_diagonals, get_space_diagonals
+from algorithms.base_algorithm import BaseAlgorithm
+from utils.data_processing import init_cube, evaluate_cube, random_swap, get_rows, get_cols, get_pillars, get_side_diagonals, get_space_diagonals
 import random
 import time
 

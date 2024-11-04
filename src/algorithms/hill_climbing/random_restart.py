@@ -1,7 +1,7 @@
 import time
-from src.algorithms.base_algorithm import BaseAlgorithm
-from src.utils.data_processing import is_goal, init_cube
-from src.algorithms.hill_climbing.steepest_ascent import SteepestAscent
+from algorithms.base_algorithm import BaseAlgorithm
+from utils.data_processing import is_goal, init_cube
+from algorithms.hill_climbing.steepest_ascent import SteepestAscent
 
 class RandomRestart(BaseAlgorithm):
     def __init__(self, cube, max_iter, max_restart):

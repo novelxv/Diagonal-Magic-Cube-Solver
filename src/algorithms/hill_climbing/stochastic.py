@@ -1,5 +1,5 @@
-from src.algorithms.base_algorithm import BaseAlgorithm
-from src.utils.data_processing import evaluate_cube, random_swap
+from algorithms.base_algorithm import BaseAlgorithm
+from utils.data_processing import evaluate_cube, random_swap
 import time
 
 class Stochastic(BaseAlgorithm):
