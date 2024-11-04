@@ -1,11 +1,11 @@
 import numpy as np
 from algorithms.base_algorithm import BaseAlgorithm
-from utils.data_processing import init_cube, evaluate_cube, random_swap, get_rows, get_cols, get_pillars, get_side_diagonals, get_space_diagonals
+from utils.data_processing import init_cube, random_swap, get_rows, get_cols, get_pillars, get_side_diagonals, get_space_diagonals
 import random
 import time
 
 class GeneticAlgorithm(BaseAlgorithm):
-    def __init___(self, cube: np.ndarray, max_iter: int, population_size: int, mutation_rate: float):
+    def __init__(self, cube: np.ndarray, max_iter: int, population_size: int, mutation_rate: float):
         """ Initialize genetic algorithm """
         super().__init__(cube, max_iter)
         self.population_size = population_size
@@ -16,7 +16,7 @@ class GeneticAlgorithm(BaseAlgorithm):
         """ Generate initial population """
         return [init_cube(self.cube.shape[0]) for _ in range(self.population_size)]
     
-    def fitness_function(cube: np.ndarray) -> int:
+    def fitness_function(self, cube: np.ndarray) -> int:
         """ Fitness function to evaluate individual """
         n = cube.shape[0]
         magic_number = 1/2 * n * (n**3 + 1)
@@ -49,8 +49,8 @@ class GeneticAlgorithm(BaseAlgorithm):
         fitness_val = self.evaluate_population()
         total_fitness = sum(fitness_val)
         prob = [val / total_fitness for val in fitness_val]
-        parents = np.random.choice(self.population, size=2, p=prob, replace=False)
-        return parents[0], parents[1]
+        parents = np.random.choice(self.population_size, size=2, p=prob, replace=False)
+        return self.population[parents[0]], self.population[parents[1]]
     
     def crossover(self, parent1, parent2) -> np.ndarray:
         """ Crossover between two parents """

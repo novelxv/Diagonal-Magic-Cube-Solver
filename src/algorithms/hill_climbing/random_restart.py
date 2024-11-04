@@ -21,7 +21,7 @@ class RandomRestart(BaseAlgorithm):
             if (is_goal(steepest_algo.cube)):
                 break
             else:
-                print(self.cube.shape[0])
+                # print(self.cube.shape[0])
                 self.cube = init_cube(self.cube.shape[0])
                 steepest_algo = SteepestAscent(self.cube, self.max_iter)
                 self.restarts += 1

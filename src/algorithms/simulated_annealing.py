@@ -5,7 +5,7 @@ from utils.data_processing import evaluate_cube, random_swap
 import time
 
 class SimulatedAnnealing(BaseAlgorithm):
-    def __init__(self, cube, max_iter, initial_temp, cooling_rate):
+    def __init__(self, cube: np.ndarray, max_iter: int, initial_temp: float, cooling_rate: float):
         super().__init__(cube, max_iter)
         self.initial_temp = initial_temp
         self.cooling_rate = cooling_rate
