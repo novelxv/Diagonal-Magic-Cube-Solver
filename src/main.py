@@ -8,6 +8,7 @@ from algorithms.genetic_algorithm import GeneticAlgorithm
 from utils.cube_visualizer import visualize_experiment
 from utils.data_processing import init_cube
 from utils.file_manager import save_experiment_results, load_experiment_results
+from experiments.experiment_runner import run_all
 
 def run_experiment(algorithm_class, cube, **kwargs):
     algo = algorithm_class(cube=cube, **kwargs)
@@ -22,6 +23,7 @@ def main():
     
     initial_cube = init_cube(n)
 
+    run_all()
     # # Eksperimen menggunakan Steepest Ascent
     # print("Running Steepest Ascent...")
     # results_sa = run_experiment(
@@ -57,15 +59,15 @@ def main():
     # )
 
     # Eksperimen menggunakan Simulated Annealing
-    print("Running Simulated Annealing...")
-    results_sa = run_experiment(
-        SimulatedAnnealing,
-        cube=initial_cube,
-        max_iter=max_iter,
-        initial_temp=1000,
-        cooling_rate=0.95
-    )
-    save_path = save_experiment_results(results_sa, "delete-later-sa.json")
+    # print("Running Simulated Annealing...")
+    # results_sa = run_experiment(
+    #     SimulatedAnnealing,
+    #     cube=initial_cube,
+    #     max_iter=max_iter,
+    #     initial_temp=1000,
+    #     cooling_rate=0.95
+    # )
+    # save_path = save_experiment_results(results_sa, "delete-later-sa.json")
 
     # # Eksperimen menggunakan Genetic Algorithm
     # print("Running Genetic Algorithm...")

@@ -16,7 +16,7 @@ def plot_obj_vs_iter(tracker: list, title: str = "Objective Function vs Iteratio
     plt.xlabel("Iterations")
     plt.ylabel("Objective Function Value")
     plt.title(title)
-    plt.show()
+    # plt.show()
 
 def plot_prob_vs_iter(prob_values: list, title="Probability (e^ΔE/T) vs Iterations"):
     """ Plot the probability values vs iterations """
@@ -25,7 +25,7 @@ def plot_prob_vs_iter(prob_values: list, title="Probability (e^ΔE/T) vs Iterati
     plt.xlabel("Iterations")
     plt.ylabel("Probability (e^ΔE/T)")
     plt.title(title)
-    plt.show()
+    # plt.show()
 
 def visualize_experiment(results, algo_name="Algorithm"):
     """ Visualize the results of the experiment """
@@ -51,3 +51,4 @@ def visualize_experiment(results, algo_name="Algorithm"):
     if "restarts" in results and "iter_per_restart" in results:  
         print(f"Restarts: {results['restarts']}")
         print(f"Iterations per Restart: {results['iter_per_restart']}")
+    plt.show()
