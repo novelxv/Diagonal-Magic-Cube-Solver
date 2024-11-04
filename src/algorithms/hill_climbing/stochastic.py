@@ -9,6 +9,7 @@ class Stochastic(BaseAlgorithm):
         while self.iter < self.max_iter:
             c_val = self.evaluate()
             self.tracker.append(c_val)
+            self.state_tracker.append(self.cube.copy())
 
             neighbor = random_swap(self.cube)
             n_val = evaluate_cube(neighbor)

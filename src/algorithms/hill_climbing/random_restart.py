@@ -18,7 +18,10 @@ class RandomRestart(BaseAlgorithm):
         for _ in range(self.max_restart):
             steepest_algo.run()
             self.results.append(steepest_algo)
-            if (is_goal(steepest_algo.cube)):
+
+            self.state_tracker.extend(steepest_algo.state_tracker)
+
+            if is_goal(steepest_algo.cube):
                 break
             else:
                 self.cube = init_cube(self.cube.shape[0])
@@ -32,7 +35,7 @@ class RandomRestart(BaseAlgorithm):
             self.iter += result.iter
 
             res_val = result.evaluate()
-            if (res_val > m_val):
+            if res_val > m_val:
                 m = result
                 m_val = res_val
                 
@@ -41,8 +44,8 @@ class RandomRestart(BaseAlgorithm):
 
     def get_results(self):
         result = super().get_results()
-        result.update({'restarts': self.restarts,
-                       'iter_per_restart': [e.iter for e in self.results]
-                       })
+        result.update({
+            'restarts': self.restarts,
+            'iter_per_restart': [e.iter for e in self.results]
+        })
         return result
-

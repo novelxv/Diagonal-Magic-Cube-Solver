@@ -10,6 +10,7 @@ class BaseAlgorithm(ABC):
         self.max_iter = max_iter
         self.iter = 0
         self.tracker = []
+        self.state_tracker = []
         self.start_time = None
         self.end_time = None
 
@@ -24,6 +25,7 @@ class BaseAlgorithm(ABC):
     def track_value(self):
         value = self.evaluate()
         self.tracker.append(value)
+        self.state_tracker.append(self.cube.copy())
 
     def get_results(self) -> dict:
         duration = self.end_time - self.start_time
@@ -34,6 +36,7 @@ class BaseAlgorithm(ABC):
             "final_value": self.evaluate(),
             "iterations": self.iter,
             "tracker": self.tracker,
+            "state_tracker": self.state_tracker,
             "duration": duration
         }
         return results
@@ -42,6 +45,7 @@ class BaseAlgorithm(ABC):
         self.cube = self.init_cube.copy()
         self.iter = 0
         self.tracker = []
+        self.state_tracker = []
         self.start_time = None
         self.end_time = None
         
