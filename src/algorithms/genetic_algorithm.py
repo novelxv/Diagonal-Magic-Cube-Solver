@@ -80,6 +80,7 @@ class GeneticAlgorithm(BaseAlgorithm):
             if pop_best_fitness > best_fitness:
                 best_fitness = pop_best_fitness
                 best_individual = self.population[np.argmax(fitness_vals)]
+                self.cube = best_individual
             # Check if solution is found
             if self.is_solution(best_individual):
                 found_sol = True
