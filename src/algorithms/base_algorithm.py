@@ -25,7 +25,7 @@ class BaseAlgorithm(ABC):
         value = self.evaluate()
         self.tracker.append(value)
 
-    def get_results(self):
+    def get_results(self) -> dict:
         duration = self.end_time - self.start_time
         results = {
             "initial_state": self.init_cube,

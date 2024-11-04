@@ -100,9 +100,10 @@ class GeneticAlgorithm(BaseAlgorithm):
         self.cube = best_individual
         self.end_time = time.time()
 
-    def get_results(self):
+    def get_results(self) -> dict:
+        """ Get results of genetic algorithm """
         results = super().get_results()
         results.update({
-            "population": self.population,
+            "population_size": self.population_size,
         })
         return results
