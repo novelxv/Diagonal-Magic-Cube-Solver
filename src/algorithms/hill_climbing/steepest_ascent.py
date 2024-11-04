@@ -4,7 +4,7 @@ import time
 
 class SteepestAscent(BaseAlgorithm):
     def run(self):
-        self.start_time = time.time
+        self.start_time = time.time()
         self.iter = 0
         while self.iter < self.max_iter:
             self.track_value()
