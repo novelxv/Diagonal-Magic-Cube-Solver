@@ -7,6 +7,7 @@
 - [Setup and Installation](#setup-and-installation)
 - [Running the Program](#running-the-program)
 - [Features](#features)
+- [Demo Video](#demo-video)
 - [Team Members and Responsibilities](#team-members-and-responsibilities)
 
 ---
@@ -107,6 +108,13 @@ This will open the terminal interface, where you can choose either to:
 - **Interactive Replay**: GUI to replay experiments, visualize cube states at each iteration, and control playback.
 - **Configurable Parameters**: Allows customization of algorithm parameters such as max iterations, restarts, and mutation rates.
 - **Experiment Tracking**: Saves results of each experiment, including initial and final states, iteration history, and performance metrics.
+
+---
+
+## Demo Video
+
+Here is a short demo video showcasing the interactive replay feature of the Diagonal Magic Cube Solver:
+![Demo Video](assets/demo.gif)
 
 ---
 
