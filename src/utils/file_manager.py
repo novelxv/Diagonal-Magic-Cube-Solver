@@ -19,7 +19,11 @@ def convert_to_serializable(obj):
 def save_experiment_results(results, filename=None):
     if not filename:
         filename = f"experiment_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-    
+    else:
+        base, ext = os.path.splitext(filename)
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        filename = f"{base}_{timestamp}{ext}"
+
     file_path = os.path.join(RESULTS_DIR, filename)
     
     serializable_results = {key: convert_to_serializable(value) for key, value in results.items()}

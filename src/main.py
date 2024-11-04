@@ -1,4 +1,3 @@
-import numpy as np
 from algorithms.hill_climbing.steepest_ascent import SteepestAscent
 from algorithms.hill_climbing.sideways_move import SidewaysMove
 from algorithms.hill_climbing.random_restart import RandomRestart
@@ -7,8 +6,9 @@ from algorithms.simulated_annealing import SimulatedAnnealing
 from algorithms.genetic_algorithm import GeneticAlgorithm
 from utils.cube_visualizer import visualize_experiment
 from utils.data_processing import init_cube
-from utils.file_manager import save_experiment_results, load_experiment_results
-from experiments.experiment_runner import run_all
+from utils.file_manager import save_experiment_results
+from replay.player import ReplayPlayer
+import tkinter as tk
 
 def run_experiment(algorithm_class, cube, **kwargs):
     algo = algorithm_class(cube=cube, **kwargs)
@@ -17,68 +17,81 @@ def run_experiment(algorithm_class, cube, **kwargs):
     visualize_experiment(results, algo_name=algorithm_class.__name__)
     return results
 
+def get_user_input():
+    print("Choose Mode:")
+    print("1. Run Experiment")
+    print("2. Replay Experiment")
+    mode = input("Enter choice (1 or 2): ")
+
+    if mode == '1':
+        n = int(input("Enter cube size: "))
+        max_iter = int(input("Enter max iterations: "))
+
+        print("\nChoose Algorithm:")
+        print("1. Steepest Ascent Hill Climbing")
+        print("2. Hill Climbing with Sideways Move")
+        print("3. Random Restart Hill Climbing")
+        print("4. Stochastic Hill Climbing")
+        print("5. Simulated Annealing")
+        print("6. Genetic Algorithm")
+        algo_choice = input("Enter choice (1-6): ")
+
+        algorithm_params = {"max_iter": max_iter}
+        if algo_choice == '2':
+            algorithm_params["max_sideways_moves"] = int(input("Enter max sideways moves: "))
+        elif algo_choice == '3':
+            algorithm_params["max_restart"] = int(input("Enter max restarts: "))
+        elif algo_choice == '5':
+            algorithm_params["initial_temp"] = float(input("Enter initial temperature: "))
+            algorithm_params["cooling_rate"] = float(input("Enter cooling rate (e.g., 0.95): "))
+        elif algo_choice == '6':
+            algorithm_params["population_size"] = int(input("Enter population size: "))
+            algorithm_params["mutation_rate"] = float(input("Enter mutation rate (e.g., 0.05): "))
+
+        return "experiment", n, algo_choice, algorithm_params
+
+    elif mode == '2':
+        return "replay",
+    else:
+        print("Invalid choice.")
+        return None
+
 def main():
-    n = 5  
-    max_iter = 10 
-    
-    initial_cube = init_cube(n)
+    user_input = get_user_input()
+    if user_input is None:
+        return
 
-    run_all()
-    # # Eksperimen menggunakan Steepest Ascent
-    # print("Running Steepest Ascent...")
-    # results_sa = run_experiment(
-    #     SteepestAscent,
-    #     cube=initial_cube,
-    #     max_iter=max_iter
-    # )
+    mode = user_input[0]
 
-    # # Eksperimen menggunakan Sideways Move
-    # print("Running Sideways Move Hill Climbing...")
-    # results_sm = run_experiment(
-    #     SidewaysMove,
-    #     cube=initial_cube,
-    #     max_iter=max_iter,
-    #     max_sideways_moves=100
-    # )
+    if mode == "experiment":
+        _, n, algo_choice, algorithm_params = user_input
+        initial_cube = init_cube(n)
+        
+        algorithm_mapping = {
+            '1': SteepestAscent,
+            '2': SidewaysMove,
+            '3': RandomRestart,
+            '4': Stochastic,
+            '5': SimulatedAnnealing,
+            '6': GeneticAlgorithm
+        }
+        algorithm_class = algorithm_mapping.get(algo_choice)
 
-    # # Eksperimen menggunakan Random Restart Hill Climbing
-    # print("Running Random Restart Hill Climbing...")
-    # results_rr = run_experiment(
-    #     RandomRestart,
-    #     cube=initial_cube,
-    #     max_iter=max_iter,
-    #     max_restart=2
-    # )
+        if algorithm_class is None:
+            print("Invalid algorithm choice.")
+            return
 
-    # # Eksperimen menggunakan Stochastic Hill Climbing
-    # print("Running Stochastic Hill Climbing...")
-    # results_sh = run_experiment(
-    #     Stochastic,
-    #     cube=initial_cube,
-    #     max_iter=max_iter
-    # )
+        print(f"Running {algorithm_class.__name__}...")
+        results = run_experiment(algorithm_class, cube=initial_cube, **algorithm_params)
+        filename = f"{algorithm_class.__name__}_results.json"
+        save_path = save_experiment_results(results, filename)
+        print(f"Results saved to {save_path}")
 
-    # Eksperimen menggunakan Simulated Annealing
-    # print("Running Simulated Annealing...")
-    # results_sa = run_experiment(
-    #     SimulatedAnnealing,
-    #     cube=initial_cube,
-    #     max_iter=max_iter,
-    #     initial_temp=1000,
-    #     cooling_rate=0.95
-    # )
-    # save_path = save_experiment_results(results_sa, "delete-later-sa.json")
-
-    # # Eksperimen menggunakan Genetic Algorithm
-    # print("Running Genetic Algorithm...")
-    # results_ga = run_experiment(
-    #     GeneticAlgorithm,
-    #     cube=initial_cube,
-    #     max_iter=max_iter,
-    #     population_size=50,
-    #     mutation_rate=0.05
-    # )
-    # save_path = save_experiment_results(results_ga, "delete-later-ga.json")
+    elif mode == "replay":
+        root = tk.Tk()
+        root.title("Diagonal Magic Cube Replay Player")
+        player = ReplayPlayer(root, {}) 
+        root.mainloop()
 
 if __name__ == "__main__":
     main()
